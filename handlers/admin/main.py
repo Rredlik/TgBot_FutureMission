@@ -184,8 +184,7 @@ def register_admin_handlers(dp: Dispatcher) -> None:
                                 state='*')
     dp.register_message_handler(__admin_menu, IsAdmin(), Text(equals="Меню админа"),
                                 state='*')
-    dp.register_message_handler(__admin_menu, IsAdmin(), lambda c: c.data == 'close_menu_AD',
-                                state=ADPosting.WriteText)
+
 
     dp.register_message_handler(__new_admin, IsAdmin(), commands=['addadmin'],
                                 state='*')
@@ -196,6 +195,8 @@ def register_admin_handlers(dp: Dispatcher) -> None:
                                        IsAdmin(), state='*')
     dp.register_message_handler(__check_AdPost, IsAdmin(), state=ADPosting.WriteText,
                                 content_types=[ContentType.PHOTO, ContentType.VIDEO, ContentType.TEXT])
+    dp.register_message_handler(__admin_menu, IsAdmin(), lambda c: c.data == 'close_menu_AD',
+                                state=ADPosting.WriteText)
     dp.register_callback_query_handler(__send_AdPost, lambda c: c.data == 'sendAdPost',
                                        IsAdmin(), state=ADPosting.SendPost)
     # endregion
