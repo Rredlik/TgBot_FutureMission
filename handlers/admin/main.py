@@ -50,7 +50,7 @@ async def __AddAdmin(msg: Message, state: FSMContext):
     bot: Bot = msg.bot
     user_id = msg.from_user.id
     new_admin_id = msg.text
-    print('new_admin_username', new_admin_username)
+    # print('new_admin_username', new_admin_username)
     try:
         await make_new_admin(new_admin_id)
         await bot.send_message(new_admin_id, 'Вам выданы права админа', reply_markup=kb_main(new_admin_id))
