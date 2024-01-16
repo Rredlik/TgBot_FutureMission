@@ -60,7 +60,7 @@ async def send_attention(user_id, bot: Bot, query_data):
         await bot.send_message(user_id, msg_txt, reply_markup=markup)
     else:
         await update_sub_status(user_id, 1)
-        msg_txt = "Спасибо за подписку на канал, получите ваш подарок"
+        msg_txt = "Спасибо за подписку на мой канал! А вот и ваш подарок. Приятного чтения❤️"
         await bot.send_document(user_id, document=doc, caption=msg_txt)
     await give_gift(user_id)
 
