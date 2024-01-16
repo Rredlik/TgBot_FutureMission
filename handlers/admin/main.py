@@ -53,11 +53,11 @@ async def __AddAdmin(msg: Message, state: FSMContext):
     # print('new_admin_username', new_admin_username)
     try:
         await make_new_admin(new_admin_id)
-        await bot.send_message(new_admin_id, 'Вам выданы права админа', reply_markup=kb_main(new_admin_id))
-        await bot.send_message(user_id, 'Новый администратор добавлен', reply_markup=kb_main(user_id))
+        await bot.send_message(new_admin_id, 'Вам выданы права админа', reply_markup=await kb_main(new_admin_id))
+        await bot.send_message(user_id, 'Новый администратор добавлен', reply_markup=await kb_main(user_id))
         logger.info(f'Добавлен новый администатор: {user_id}')
     except ChatNotFound:
-        await bot.send_message(user_id, 'Пользователь не найден', reply_markup=kb_main(user_id))
+        await bot.send_message(user_id, 'Пользователь не найден', reply_markup=await kb_main(user_id))
 # endregion
 ######################################################
 ######################################################
