@@ -127,7 +127,7 @@ async def broadcaster(bot, msgText, image, video) -> int:
             await asyncio.sleep(.08)  # 20 messages per second (Limit: 30 messages per second)
     finally:
         complete_message = (
-            f"<b>📢 Рассылка была завершена за <code>{await get_unix() - get_time}сек</code></b>\n"
+            f"📢 Рассылка была завершена за <code>{await get_unix() - get_time}сек</code>\n"
             f"👤 Всего пользователей: <code>{len(allUsers)}</code>\n"
             f"✅ Пользователей получило сообщение: <code>{receive_users}</code>\n"
             f"❌ Пользователей не получило сообщение: <code>{block_users}</code>"
