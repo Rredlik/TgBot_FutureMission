@@ -198,7 +198,7 @@ def register_admin_handlers(dp: Dispatcher) -> None:
     # endregion
 
     # Add New Admin region
-    dp.register_message_handler(__new_admin, IsAdmin(), lambda c: c.data == 'add_new_admin',
+    dp.register_callback_query_handler(__new_admin, IsAdmin(), lambda c: c.data == 'add_new_admin',
                                 state='*')
     dp.register_message_handler(__check_AdPost, IsAdmin(), state=AddAdmin.TakeUserId,
                                 content_types=[ContentType.TEXT])
