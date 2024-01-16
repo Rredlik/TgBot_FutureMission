@@ -17,6 +17,7 @@ from utils.methods import send_message
 async def __start(message: Message, state: FSMContext):
     user_id = message.from_user.id
     bot: Bot = message.bot
+    await state.reset_state()
 
     await is_registered(message=message)
     msg_txt = ("Приветствую вас! Меня зовут Марина Илалова. Я - профориентолог, семейный консультант по талантам."
