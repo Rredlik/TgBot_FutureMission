@@ -45,7 +45,7 @@ async def __new_admin(query: CallbackQuery, state: FSMContext):
     await query.bot.send_message(query.from_user.id, text, reply_markup=markup)
 
 
-async def _AddAdmin(msg: Message, state: FSMContext):
+async def __AddAdmin(msg: Message, state: FSMContext):
     await state.reset_state()
     bot: Bot = msg.bot
     user_id = msg.from_user.id
@@ -200,7 +200,7 @@ def register_admin_handlers(dp: Dispatcher) -> None:
     # Add New Admin region
     dp.register_callback_query_handler(__new_admin, IsAdmin(), lambda c: c.data == 'add_new_admin',
                                 state='*')
-    dp.register_message_handler(__check_AdPost, IsAdmin(), state=AddAdmin.TakeUserId,
+    dp.register_message_handler(__AddAdmin, IsAdmin(), state=AddAdmin.TakeUserId,
                                 content_types=[ContentType.TEXT])
     # endregion
 
