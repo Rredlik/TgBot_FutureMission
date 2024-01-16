@@ -23,3 +23,6 @@ class Dialog(StatesGroup):
     take_email: Final = State()
     ending: Final = State()
 
+class AddAdmin(StatesGroup):
+    TakeUserId: Final = State()
+

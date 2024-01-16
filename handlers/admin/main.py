@@ -14,42 +14,53 @@ from handlers.admin.applications import _register_applications_handlers
 from handlers.admin.media import _register_media_handlers
 from handlers.keyboards import kb_main
 from utils.misc.const_functions import get_unix
-from utils.states import ADPosting
+from utils.states import ADPosting, AddAdmin
 
 
 async def __admin_menu(msg: Message, state: FSMContext):
     await state.reset_state()
     userId = msg.from_user.id
     message_txt = ('Меню специальных функций администратора\n\n'
-                   # '- Добавить нового администратора: /addadmin [имя пользователя]\n' 
+                   '- Добавить нового администратора\n' 
                    '- Информация о боте\n'
                    '- Рассылка для всех пользователей')
     markup = InlineKeyboardMarkup() \
+        .add(InlineKeyboardButton('Добавить администратора', callback_data='addAdmin')) \
         .add(InlineKeyboardButton('Информация', callback_data='analytic')) \
         .add(InlineKeyboardButton('Рассылка', callback_data='adPosting'))
 
     await msg.bot.send_message(userId, message_txt, reply_markup=markup)
     # logger.info(f'User_id: {userId}')
+# endregion
+######################################################
+######################################################
+# Add New Admin region
+async def __new_admin(query: CallbackQuery, state: FSMContext):
+    await state.reset_state()
+    await state.set_state(AddAdmin.TakeUserId)
+    text = ('Отправьте id пользователя которого хотите добавить в администраторы.\n'
+            'Получить его можно переслав сообщение этому боту: t.me/getmyid_bot')
+    markup = InlineKeyboardMarkup() \
+        .add(InlineKeyboardButton('Отмена', callback_data='close_menu_AD'))
+    await query.bot.send_message(query.from_user.id, text, reply_markup=markup)
 
 
-async def __new_admin(msg: Message):
+async def _AddAdmin(msg: Message, state: FSMContext):
+    await state.reset_state()
     bot: Bot = msg.bot
     user_id = msg.from_user.id
-    new_admin_username = msg.get_args()
+    new_admin_id = msg.text
     print('new_admin_username', new_admin_username)
     try:
-        new_admin_id = await bot.get_chat(new_admin_username)
         await make_new_admin(new_admin_id)
-
         await bot.send_message(new_admin_id, 'Вам выданы права админа', reply_markup=kb_main(new_admin_id))
         await bot.send_message(user_id, 'Новый администратор добавлен', reply_markup=kb_main(user_id))
         logger.info(f'Добавлен новый администатор: {user_id}')
     except ChatNotFound:
         await bot.send_message(user_id, 'Пользователь не найден', reply_markup=kb_main(user_id))
-
-
 # endregion
-
+######################################################
+######################################################
 # region Advertising
 async def __write_AdPost(query: CallbackQuery, state: FSMContext):
     await state.reset_state()
@@ -184,10 +195,13 @@ def register_admin_handlers(dp: Dispatcher) -> None:
                                 state='*')
     dp.register_message_handler(__admin_menu, IsAdmin(), Text(equals="Меню админа"),
                                 state='*')
+    # endregion
 
-
-    dp.register_message_handler(__new_admin, IsAdmin(), commands=['addadmin'],
+    # Add New Admin region
+    dp.register_message_handler(__new_admin, IsAdmin(), lambda c: c.data == 'addAdmin',
                                 state='*')
+    dp.register_message_handler(__check_AdPost, IsAdmin(), state=AddAdmin.TakeUserId,
+                                content_types=[ContentType.TEXT])
     # endregion
 
     # region Advertising
