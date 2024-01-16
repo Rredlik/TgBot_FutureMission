@@ -25,7 +25,7 @@ async def __admin_menu(msg: Message, state: FSMContext):
                    '- Информация о боте\n'
                    '- Рассылка для всех пользователей')
     markup = InlineKeyboardMarkup() \
-        .add(InlineKeyboardButton('Добавить администратора', callback_data='addAdmin')) \
+        .add(InlineKeyboardButton('Добавить администратора', callback_data='add_new_admin')) \
         .add(InlineKeyboardButton('Информация', callback_data='analytic')) \
         .add(InlineKeyboardButton('Рассылка', callback_data='adPosting'))
 
@@ -198,7 +198,7 @@ def register_admin_handlers(dp: Dispatcher) -> None:
     # endregion
 
     # Add New Admin region
-    dp.register_message_handler(__new_admin, IsAdmin(), lambda c: c.data == 'addAdmin',
+    dp.register_message_handler(__new_admin, IsAdmin(), lambda c: c.data == 'add_new_admin',
                                 state='*')
     dp.register_message_handler(__check_AdPost, IsAdmin(), state=AddAdmin.TakeUserId,
                                 content_types=[ContentType.TEXT])
