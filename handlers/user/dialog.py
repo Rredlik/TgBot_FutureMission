@@ -82,7 +82,7 @@ async def __thirdStep(query: CallbackQuery, state: FSMContext):
         theme_data = query.data.split('_')
         theme = themes[theme_data[2]][int(theme_data[3])]
         await update_app_theme(query.from_user.id, theme)
-        if theme_data[2] == self:
+        if theme_data[2] == 'self':
             url += 'adults'
         else:
             url += 'children'
