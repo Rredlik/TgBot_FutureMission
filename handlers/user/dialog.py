@@ -93,7 +93,7 @@ async def __thirdStep(query: CallbackQuery, state: FSMContext):
     markup = (InlineKeyboardMarkup()
               .add(InlineKeyboardButton('Оставить заявку', callback_data='submit_application'))
               # .add(InlineKeyboardButton('Часто задаваемые вопросы', callback_data='pop_questions'))
-              .add(InlineKeyboardButton('Узнать об услугах подробнее', url='https://future-mission.ru/otzyvy-o-konsultaciah')))
+              .add(InlineKeyboardButton('Узнать об услугах подробнее', url=url)))
     await send_message(query, msg_txt, markup)
 
 
