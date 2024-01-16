@@ -88,7 +88,7 @@ async def __thirdStep(query: CallbackQuery, state: FSMContext):
     markup = (InlineKeyboardMarkup()
               .add(InlineKeyboardButton('Оставить заявку', callback_data='submit_application'))
               # .add(InlineKeyboardButton('Часто задаваемые вопросы', callback_data='pop_questions'))
-              .add(InlineKeyboardButton('Узнать об услугах подробнее', callback_data='learn_more')))
+              .add(InlineKeyboardButton('Узнать об услугах подробнее', url='https://future-mission.ru/otzyvy-o-konsultaciah')))
     await send_message(query, msg_txt, markup)
 
 
@@ -161,14 +161,11 @@ async def __makeApplication_takeEmail(message: Message, state: FSMContext):
     await update_app_data(user_id, 'is_complete', 1)
     await update_app_data(user_id, 'in_work', 0)
     is_sub = await is_subscriber(user_id)
-    if is_sub:
-        msg_txt = (
-            'Спасибо, ваша заявка была отправлена, а пока можете ознакомиться со всем более подробно '
-            f'на моем телеграмм канале {CHANNEL_LINK}')
-    else:
-        msg_txt = (
-            'Спасибо, ваша заявка была отправлена, а пока можете ознакомиться со всем более подробно и подписаться '
-            f'на мой телеграмм канал {CHANNEL_LINK}')
+    msg_txt = (
+        'Спасибо, ваша заявка отправлена! Я свяжусь с вами в ближайшее время.' 
+        'А пока вы можете подписаться на мой канал, где я рассказываю массу интересного\n\n.' 
+        'За подписку вы получите от меня  Подарок в виде полезной пользы 😉\n'
+        f'{CHANNEL_LINK}')
     await message.answer(msg_txt)
     await __new_app_attention(message)
     # Повторная отправка кнопок с вопросами
