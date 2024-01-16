@@ -5,7 +5,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils import executor
 from loguru import logger
 
-from config import ADMIN_IDS, DESCRIPTION
+from config import ADMIN_IDS, CHANNEL_LINK, DESCRIPTION
 from config.env import Env
 from database.main import create_db
 from database.methods.user import make_new_admin
@@ -39,6 +39,7 @@ async def __on_start_up(dp: Dispatcher):
     logger.success("Bot started!")
     logger.success("developed by @skidikis")
     logger.info(f"Admins list: {ADMIN_IDS}")
+    logger.info(f"Channel list: {CHANNEL_LINK}")
     for admin_id in ADMIN_IDS:
         await is_registered(user_id=admin_id)
         await make_new_admin(admin_id)

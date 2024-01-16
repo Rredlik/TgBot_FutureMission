@@ -42,6 +42,7 @@ async def attention_to_sub(query: CallbackQuery, type):
 
 async def send_attention(user_id, bot: Bot, query_data):
     sub_status = await bot.get_chat_member(chat_id=CHANNEL_ID[0], user_id=user_id)
+    print(CHANNEL_ID[0])
     if type == 'self':
         doc = self_doc
     else:
