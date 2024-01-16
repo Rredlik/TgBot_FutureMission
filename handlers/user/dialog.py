@@ -74,6 +74,7 @@ async def __secondStep_child(query: CallbackQuery, state: FSMContext):
 
 async def __thirdStep(query: CallbackQuery, state: FSMContext):
     current_state = await state.get_state()
+    url = f'https://future-mission.ru/'
     await state.set_state(Dialog.third_step)
     if current_state == 'Dialog:second_step':
         msg_txt = ("С радостью помогу вам решить эту задачу. Для этого оставьте заявку. Я свяжусь с вами, "
@@ -81,6 +82,10 @@ async def __thirdStep(query: CallbackQuery, state: FSMContext):
         theme_data = query.data.split('_')
         theme = themes[theme_data[2]][int(theme_data[3])]
         await update_app_theme(query.from_user.id, theme)
+        if theme_data[2] == self:
+            url += 'adults'
+        else:
+            url += 'children'
     else:
         msg_txt = ("С радостью отвечу на все ваши вопросы. Для этого оставьте заявку. Я свяжусь с вами, "
                    "и мы обсудим, как можно решить вашу задачу.")
