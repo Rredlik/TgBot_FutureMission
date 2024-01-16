@@ -1,6 +1,7 @@
 # import aiohttp
 import aiosqlite
 import pendulum as pendulum
+from .env import Env
 
 ADMIN_IDS = Env.ADMINS  # 351931465
 ADMIN_LINK = ['@skidikis']
